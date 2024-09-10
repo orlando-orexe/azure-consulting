@@ -22,3 +22,38 @@ The following modules are included:
 - **appservice**: This module deploys an App Service that runs a Docker image. It is designed to provide a scalable and managed hosting environment for your containerized applications.
 - **mysql**: This module deploys a MySQL Flexible Server. It offers a fully managed database service with high availability, automated backups, and scaling capabilities to meet your data storage needs.
 - **network**: This module deploys a Virtual Network. It creates a secure and isolated network environment, allowing you to manage and control your network traffic effectively.
+
+# How to deploy
+
+## 1. Create backend
+
+Mannually create a storage account and a container in the storage account to store the terraform state file. 
+
+Then, update the `backend.tf` file with the storage account name and container name.
+
+```tf
+terraform {
+    ...
+    backend "azurerm" {
+        resource_group_name  = "almonds.com-live"
+        storage_account_name = "tfstatealmonds"
+        container_name       = "tfstate"
+        key                  = "almondsv2.tfstate"
+    }
+}
+```
+## 2. Deploy the infrastructure
+
+Run the following commands to deploy the infrastructure:
+
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+The `terraform init` command initializes the working directory and downloads the required providers and modules.
+
+The `terraform plan` command creates an execution plan that shows what actions Terraform will take to deploy the infrastructure.
+
+The `terraform apply` command applies the changes and deploys the infrastructure.
